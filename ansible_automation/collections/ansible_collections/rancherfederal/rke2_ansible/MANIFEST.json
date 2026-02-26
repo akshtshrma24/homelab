@@ -1,0 +1,34 @@
+{
+ "collection_info": {
+  "namespace": "rancherfederal",
+  "name": "rke2_ansible",
+  "version": "2.0.0",
+  "authors": [
+   "Rancher Government <carbide@ranchergovernment.com>"
+  ],
+  "readme": "README.md",
+  "tags": [
+   "infrastructure",
+   "linux",
+   "kubernetes",
+   "rancher",
+   "rke2"
+  ],
+  "description": "Collection for rancherfederal/rke2-ansible",
+  "license": [],
+  "license_file": "LICENSE",
+  "dependencies": {},
+  "repository": "https://github.com/rancherfederal/rke2-ansible",
+  "documentation": "https://github.com/rancherfederal/rke2-ansible",
+  "homepage": "https://github.com/rancherfederal/rke2-ansible",
+  "issues": "https://github.com/rancherfederal/rke2-ansible/issues"
+ },
+ "file_manifest_file": {
+  "name": "FILES.json",
+  "ftype": "file",
+  "chksum_type": "sha256",
+  "chksum_sha256": "da8638daefe025f90cc4ada096b4daff696eda7deb743450851af865f372b2b3",
+  "format": 1
+ },
+ "format": 1
+}

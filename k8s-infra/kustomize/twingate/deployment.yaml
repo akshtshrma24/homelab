@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: twingate-connector
+  namespace: twingate
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: twingate-connector
+  template:
+    metadata:
+      labels:
+        app: twingate-connector
+    spec:
+      containers:
+        - name: twingate-connector
+          image: twingate/connector:latest
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: TWINGATE_NETWORK
+              valueFrom:
+                secretKeyRef:
+                  name: twingate-connector
+                  key: TWINGATE_NETWORK
+            - name: TWINGATE_ACCESS_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: twingate-connector
+                  key: TWINGATE_ACCESS_TOKEN
+            - name: TWINGATE_REFRESH_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: twingate-connector
+                  key: TWINGATE_REFRESH_TOKEN
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi

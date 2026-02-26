@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: twingate-connector
+  namespace: twingate
+spec:
+  selector:
+    app: twingate-connector
+  ports:
+    - name: metrics
+      port: 3000
+      targetPort: 3000

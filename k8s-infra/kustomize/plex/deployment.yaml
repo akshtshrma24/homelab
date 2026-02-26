@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: plex
+  namespace: plex
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: plex
+  template:
+    metadata:
+      labels:
+        app: plex
+    spec:
+      containers:
+        - name: plex
+          image: lscr.io/linuxserver/plex:latest
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: TZ
+              value: America/New_York
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+            - name: VERSION
+              value: docker
+          ports:
+            - name: http
+              containerPort: 32400
+              protocol: TCP
+            - name: gdm-32410
+              containerPort: 32410
+              protocol: UDP
+            - name: gdm-32412
+              containerPort: 32412
+              protocol: UDP
+            - name: gdm-32413
+              containerPort: 32413
+              protocol: UDP
+            - name: gdm-32414
+              containerPort: 32414
+              protocol: UDP
+          resources:
+            requests:
+              cpu: 500m
+              memory: 1Gi
+            limits:
+              cpu: "2"
+              memory: 4Gi
+          volumeMounts:
+            - name: plex-config
+              mountPath: /config
+            - name: plex-media
+              mountPath: /data
+            - name: plex-transcode
+              mountPath: /transcode
+      volumes:
+        - name: plex-config
+          persistentVolumeClaim:
+            claimName: plex-config
+        - name: plex-media
+          persistentVolumeClaim:
+            claimName: plex-media
+        - name: plex-transcode
+          emptyDir: {}
+

@@ -1,0 +1,47 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: plex
+  namespace: plex
+spec:
+  type: LoadBalancer
+  selector:
+    app: plex
+  ports:
+    - name: http
+      protocol: TCP
+      port: 32400
+      targetPort: 32400
+    - name: companion
+      protocol: TCP
+      port: 3005
+      targetPort: 3005
+    - name: roku
+      protocol: TCP
+      port: 8324
+      targetPort: 8324
+    - name: dlna
+      protocol: TCP
+      port: 32469
+      targetPort: 32469
+    - name: discovery
+      protocol: UDP
+      port: 1900
+      targetPort: 1900
+    - name: gdm-32410
+      protocol: UDP
+      port: 32410
+      targetPort: 32410
+    - name: gdm-32412
+      protocol: UDP
+      port: 32412
+      targetPort: 32412
+    - name: gdm-32413
+      protocol: UDP
+      port: 32413
+      targetPort: 32413
+    - name: gdm-32414
+      protocol: UDP
+      port: 32414
+      targetPort: 32414
+

@@ -1,0 +1,8 @@
+---
+- name: Install and configure RKE2 cluster
+  hosts: all
+  become: true
+  gather_facts: true
+  any_errors_fatal: true
+  roles:
+    - role: rancherfederal.rke2_ansible.rke2

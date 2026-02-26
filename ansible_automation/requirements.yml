@@ -1,0 +1,6 @@
+---
+collections:
+  - name: rancherfederal.rke2-ansible
+    source: https://github.com/rancherfederal/rke2-ansible.git
+    type: git
+    version: main

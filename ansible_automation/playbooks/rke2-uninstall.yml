@@ -1,0 +1,83 @@
+---
+- name: Uninstall RKE2 and remove all node artifacts
+  hosts: all
+  become: true
+  gather_facts: true
+  any_errors_fatal: false
+  vars:
+    rke2_uninstall_scripts:
+      - /usr/bin/rke2-uninstall.sh
+      - /usr/local/bin/rke2-uninstall.sh
+    rke2_packages:
+      - rke2-server
+      - rke2-agent
+      - rke2-common
+    rke2_cleanup_paths:
+      - /etc/rancher
+      - /var/lib/rancher
+      - /var/lib/kubelet
+      - /var/lib/cni
+      - /etc/cni
+      - /opt/cni
+      - /run/k3s
+      - /etc/systemd/system/rke2-server.service
+      - /etc/systemd/system/rke2-agent.service
+      - /usr/lib/systemd/system/rke2-server.service
+      - /usr/lib/systemd/system/rke2-agent.service
+      - /usr/bin/rke2-uninstall.sh
+      - /usr/local/bin/rke2-uninstall.sh
+      - /usr/bin/rke2
+      - /usr/local/bin/rke2
+      - /usr/local/bin/kubectl
+      - /usr/local/bin/crictl
+      - /usr/local/bin/ctr
+
+  tasks:
+    - name: Stop and disable RKE2 services if present
+      ansible.builtin.systemd:
+        name: "{{ item }}"
+        state: stopped
+        enabled: false
+      loop:
+        - rke2-server
+        - rke2-agent
+      failed_when: false
+
+    - name: Check which uninstall scripts exist
+      ansible.builtin.stat:
+        path: "{{ item }}"
+      loop: "{{ rke2_uninstall_scripts }}"
+      register: rke2_uninstall_script_stats
+
+    - name: Run uninstall scripts (first pass)
+      ansible.builtin.command: "{{ item.item }}"
+      loop: "{{ rke2_uninstall_script_stats.results }}"
+      when: item.stat.exists
+      register: rke2_uninstall_first_pass
+      changed_when: false
+      failed_when: false
+
+    - name: Run uninstall scripts (second pass)
+      ansible.builtin.command: "{{ item.item }}"
+      loop: "{{ rke2_uninstall_script_stats.results }}"
+      when: item.stat.exists
+      register: rke2_uninstall_second_pass
+      changed_when: false
+      failed_when: false
+
+    - name: Remove RKE2 RPM packages if installed
+      ansible.builtin.package:
+        name: "{{ item }}"
+        state: absent
+      loop: "{{ rke2_packages }}"
+      failed_when: false
+
+    - name: Remove RKE2 files and directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: absent
+      loop: "{{ rke2_cleanup_paths }}"
+
+    - name: Reload systemd daemon
+      ansible.builtin.systemd:
+        daemon_reload: true
