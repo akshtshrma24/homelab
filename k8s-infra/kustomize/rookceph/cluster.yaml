@@ -1,0 +1,35 @@
+apiVersion: ceph.rook.io/v1
+kind: CephCluster
+metadata:
+  name: rook-ceph
+  namespace: rook-ceph
+spec:
+  cephVersion:
+    image: quay.io/ceph/ceph:v18.2.4
+    allowUnsupported: false
+  dataDirHostPath: /var/lib/rook
+  mon:
+    count: 3
+    allowMultiplePerNode: false
+  mgr:
+    count: 2
+    allowMultiplePerNode: false
+  dashboard:
+    enabled: true
+    ssl: false
+  network:
+    provider: host
+  storage:
+    useAllNodes: false
+    useAllDevices: false
+    # Fill in disks later. Leave devices empty for now.
+    # Example:
+    # devices:
+    #   - name: /dev/sdb
+    nodes:
+      - name: node1
+        devices: []
+      - name: node2
+        devices: []
+      - name: node3
+        devices: []
