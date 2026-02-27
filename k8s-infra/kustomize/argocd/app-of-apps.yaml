@@ -13,9 +13,6 @@ spec:
     targetRevision: master
     path: k8s-infra/kustomize/argocd/apps
   syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
     syncOptions:
       - CreateNamespace=true
       - ServerSideApply=true
