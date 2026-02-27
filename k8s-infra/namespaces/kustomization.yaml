@@ -4,3 +4,4 @@ resources:
   - twingate.namespace.yaml
   - plex.namespace.yaml
   - pihole.namespace.yaml
+  - argocd.namespace.yaml
