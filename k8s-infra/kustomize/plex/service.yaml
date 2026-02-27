@@ -10,7 +10,7 @@ spec:
   ports:
     - name: http
       protocol: TCP
-      port: 32400
+      port: 80
       targetPort: 32400
     - name: companion
       protocol: TCP
@@ -44,4 +44,3 @@ spec:
       protocol: UDP
       port: 32414
       targetPort: 32414
-
