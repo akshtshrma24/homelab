@@ -4,3 +4,5 @@ resources:
   - ../install
 patchesStrategicMerge:
   - argocd-server-lb.yaml
+  - argocd-cm-anon.yaml
+  - argocd-rbac-anon-admin.yaml
