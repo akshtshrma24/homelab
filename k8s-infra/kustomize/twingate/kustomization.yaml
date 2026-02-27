@@ -4,9 +4,3 @@ namespace: twingate
 resources:
   - deployment.yaml
   - service.yaml
-secretGenerator:
-  - name: twingate-connector
-    envs:
-      - twingate-connector.env
-generatorOptions:
-  disableNameSuffixHash: true
