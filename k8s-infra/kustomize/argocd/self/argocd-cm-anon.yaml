@@ -5,3 +5,4 @@ metadata:
   namespace: argocd
 data:
   users.anonymous.enabled: "true"
+  timeout.reconciliation: 30s
