@@ -4,7 +4,7 @@ metadata:
   name: twingate-connector
   namespace: twingate
 spec:
-  replicas: 2
+  replicas: 3
   selector:
     matchLabels:
       app: twingate-connector
@@ -13,6 +13,16 @@ spec:
       labels:
         app: twingate-connector
     spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - twingate-connector
+              topologyKey: kubernetes.io/hostname
       containers:
         - name: twingate-connector
           image: twingate/connector:latest
