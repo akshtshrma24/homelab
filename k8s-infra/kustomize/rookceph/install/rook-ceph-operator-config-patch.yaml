@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: rook-ceph-operator-config
+  namespace: rook-ceph
+data:
+  ROOK_CSI_ENABLE_RBD: "false"
+  CSI_ENABLE_RBD_SNAPSHOTTER: "false"

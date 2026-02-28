@@ -4,3 +4,10 @@ resources:
   - https://raw.githubusercontent.com/rook/rook/v1.14.11/deploy/examples/crds.yaml
   - https://raw.githubusercontent.com/rook/rook/v1.14.11/deploy/examples/common.yaml
   - https://raw.githubusercontent.com/rook/rook/v1.14.11/deploy/examples/operator.yaml
+patches:
+  - target:
+      version: v1
+      kind: ConfigMap
+      name: rook-ceph-operator-config
+      namespace: rook-ceph
+    path: rook-ceph-operator-config-patch.yaml
