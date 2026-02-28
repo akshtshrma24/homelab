@@ -1,0 +1,18 @@
+apiVersion: ceph.rook.io/v1
+kind: CephFilesystem
+metadata:
+  name: cephfs
+  namespace: rook-ceph
+spec:
+  metadataPool:
+    replicated:
+      size: 3
+      requireSafeReplicaSize: true
+  dataPools:
+    - failureDomain: host
+      replicated:
+        size: 3
+        requireSafeReplicaSize: true
+  metadataServer:
+    activeCount: 1
+    activeStandby: true
