@@ -28,8 +28,11 @@ spec:
     #   - name: /dev/sdb
     nodes:
       - name: node1
-        devices: []
+        devices:
+          - name: /dev/disk/by-id/ata-Patriot_Inferno_200GB_SSD_DC011025FFFDD0007
       - name: node2
-        devices: []
+        devices:
+          - name: /dev/disk/by-id/scsi-0ATA_SAMSUNG_SSD_830_S0XZNEAC607465
       - name: node3
-        devices: []
+        devices:
+          - name: /dev/disk/by-id/scsi-0ATA_OCZ-VERTEX3_OCZ-EK2Y5QNVG67F54QQ
