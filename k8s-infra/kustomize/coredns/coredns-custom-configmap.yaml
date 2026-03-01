@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: coredns-custom
+  namespace: kube-system
+data:
+  homelab.server: |
+    home.arpa:53 {
+        hosts {
+            192.168.0.241 plex.home.arpa
+            192.168.0.242 sonarr.home.arpa
+            192.168.0.243 nzbget.home.arpa
+            192.168.0.244 radarr.home.arpa
+            192.168.0.245 overseerr.home.arpa
+            fallthrough
+        }
+    }

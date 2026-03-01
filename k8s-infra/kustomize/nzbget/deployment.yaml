@@ -26,6 +26,8 @@ spec:
               value: private internet access
             - name: VPN_TYPE
               value: openvpn
+            - name: SERVER_HOSTNAMES
+              value: us-california.privacy.network
             - name: OPENVPN_USER
               valueFrom:
                 secretKeyRef:
