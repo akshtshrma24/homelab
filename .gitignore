@@ -1,1 +1,2 @@
 k8s-infra/kustomize/twingate/twingate-connector.env
+k8s-infra/kustomize/nzbget/secret-pia.yaml

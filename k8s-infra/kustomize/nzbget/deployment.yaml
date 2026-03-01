@@ -1,0 +1,84 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nzbget
+  namespace: plex
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nzbget
+  template:
+    metadata:
+      labels:
+        app: nzbget
+    spec:
+      containers:
+        - name: gluetun
+          image: ghcr.io/qdm12/gluetun:latest
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            capabilities:
+              add:
+                - NET_ADMIN
+          env:
+            - name: VPN_SERVICE_PROVIDER
+              value: private internet access
+            - name: VPN_TYPE
+              value: openvpn
+            - name: OPENVPN_USER
+              valueFrom:
+                secretKeyRef:
+                  name: pia-credentials
+                  key: OPENVPN_USER
+            - name: OPENVPN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: pia-credentials
+                  key: OPENVPN_PASSWORD
+            - name: SERVER_COUNTRIES
+              value: United States
+            - name: TZ
+              value: America/New_York
+            - name: FIREWALL_INPUT_PORTS
+              value: "6789"
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 300m
+              memory: 256Mi
+        - name: nzbget
+          image: lscr.io/linuxserver/nzbget:latest
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+            - name: TZ
+              value: America/New_York
+          ports:
+            - name: http
+              containerPort: 6789
+              protocol: TCP
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          volumeMounts:
+            - name: nzbget-config
+              mountPath: /config
+            - name: media
+              mountPath: /data
+      volumes:
+        - name: nzbget-config
+          persistentVolumeClaim:
+            claimName: nzbget-config
+        - name: media
+          persistentVolumeClaim:
+            claimName: plex-media

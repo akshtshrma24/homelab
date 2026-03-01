@@ -4,7 +4,9 @@ resources:
   - argocd-self.yaml
   - metallb.yaml
   - namespaces.yaml
+  - nzbget.yaml
   - plex.yaml
   - rookceph-install.yaml
   - rookceph.yaml
+  - sonarr.yaml
   - twingate.yaml
