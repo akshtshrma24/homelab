@@ -6,6 +6,7 @@ resources:
   - namespaces.yaml
   - nzbget.yaml
   - plex.yaml
+  - radarr.yaml
   - rookceph-install.yaml
   - rookceph.yaml
   - sonarr.yaml
