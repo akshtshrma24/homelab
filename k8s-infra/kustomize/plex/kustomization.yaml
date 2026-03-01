@@ -5,5 +5,4 @@ resources:
   - deployment.yaml
   - service.yaml
   - pvc-config.yaml
-  - pvc-media.yaml
   - pvc-media-rwx.yaml
