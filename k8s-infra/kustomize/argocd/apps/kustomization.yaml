@@ -5,6 +5,7 @@ resources:
   - metallb.yaml
   - namespaces.yaml
   - nzbget.yaml
+  - overseerr.yaml
   - plex.yaml
   - radarr.yaml
   - rookceph-install.yaml
