@@ -81,4 +81,4 @@ spec:
             claimName: nzbget-config
         - name: media
           persistentVolumeClaim:
-            claimName: plex-media
+            claimName: plex-media-rwx

@@ -62,7 +62,6 @@ spec:
             claimName: plex-config
         - name: plex-media
           persistentVolumeClaim:
-            claimName: plex-media
+            claimName: plex-media-rwx
         - name: plex-transcode
           emptyDir: {}
-

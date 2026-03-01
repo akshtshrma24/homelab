@@ -46,4 +46,4 @@ spec:
             claimName: sonarr-config
         - name: media
           persistentVolumeClaim:
-            claimName: plex-media
+            claimName: plex-media-rwx
