@@ -36,8 +36,6 @@ spec:
                 secretKeyRef:
                   name: pia-credentials
                   key: OPENVPN_PASSWORD
-            - name: SERVER_COUNTRIES
-              value: United States
             - name: TZ
               value: America/New_York
             - name: FIREWALL_INPUT_PORTS
@@ -75,6 +73,8 @@ spec:
               mountPath: /config
             - name: media
               mountPath: /data
+            - name: media
+              mountPath: /downloads
       volumes:
         - name: nzbget-config
           persistentVolumeClaim:
