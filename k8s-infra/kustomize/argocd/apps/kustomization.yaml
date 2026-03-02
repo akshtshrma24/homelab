@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
   - argocd-self.yaml
   - coredns.yaml
+  - jellyfin.yaml
   - metallb.yaml
   - namespaces.yaml
   - nzbget.yaml

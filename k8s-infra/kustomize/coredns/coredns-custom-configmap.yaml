@@ -12,6 +12,7 @@ data:
             192.168.0.243 nzbget.home.arpa
             192.168.0.244 radarr.home.arpa
             192.168.0.245 overseerr.home.arpa
+            192.168.0.246 jellyfin.home.arpa
             fallthrough
         }
     }

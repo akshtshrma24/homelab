@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jellyfin
+  namespace: plex
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jellyfin
+  template:
+    metadata:
+      labels:
+        app: jellyfin
+    spec:
+      containers:
+        - name: jellyfin
+          image: lscr.io/linuxserver/jellyfin:latest
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: TZ
+              value: America/New_York
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+          ports:
+            - name: http
+              containerPort: 8096
+              protocol: TCP
+          resources:
+            requests:
+              cpu: 250m
+              memory: 512Mi
+            limits:
+              cpu: "2"
+              memory: 2Gi
+          volumeMounts:
+            - name: jellyfin-config
+              mountPath: /config
+            - name: jellyfin-media
+              mountPath: /data
+            - name: jellyfin-transcode
+              mountPath: /transcode
+      volumes:
+        - name: jellyfin-config
+          persistentVolumeClaim:
+            claimName: jellyfin-config
+        - name: jellyfin-media
+          persistentVolumeClaim:
+            claimName: plex-media-rwx
+        - name: jellyfin-transcode
+          emptyDir: {}
