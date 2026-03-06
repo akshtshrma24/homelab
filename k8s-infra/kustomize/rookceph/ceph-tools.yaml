@@ -21,11 +21,9 @@ spec:
         - name: rook-ceph-tools
           image: rook/ceph:v1.14.11
           command:
-            - /tini
-          args:
-            - -g
-            - --
-            - /usr/local/bin/toolbox.sh
+            - /bin/bash
+            - -c
+            - sleep infinity
           imagePullPolicy: IfNotPresent
           securityContext:
             privileged: true
