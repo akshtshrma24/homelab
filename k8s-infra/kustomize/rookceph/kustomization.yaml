@@ -4,3 +4,4 @@ resources:
   - cluster.yaml
   - cephfilesystem.yaml
   - cephfilesystem-storageclass.yaml
+  - ceph-tools.yaml
