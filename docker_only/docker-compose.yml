@@ -1,0 +1,111 @@
+# you will need to figure out the indexers on your own, I cannot share that info :<
+# feel free to push up some PRs if this is wrong or you have a better way of doing things
+
+services:
+  jellyfin:
+    image: lscr.io/linuxserver/jellyfin:latest
+    container_name: jellyfin
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Los_Angeles
+    volumes:
+      - ./config/jellyfin:/config
+      - media:/data
+    ports:
+      - "8096:8096"
+      - "8920:8920"
+      - "7359:7359/udp"
+      - "1900:1900/udp"
+    restart: always
+
+  gluetun:
+    image: qmcgaw/gluetun:latest
+    container_name: gluetun
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    environment:
+      - VPN_SERVICE_PROVIDER="private internet access"
+      - VPN_TYPE=openvpn
+      - SERVER_HOSTNAMES=us-california.privacy.network
+      # Enter your Private Internet Access credentials here:
+      - OPENVPN_USER=
+      - OPENVPN_PASSWORD=
+      - TZ=America/Los_Angeles
+      # Forward nzbgets web UI port through the VPN container:
+      - FIREWALL_INPUT_PORTS=6789
+    volumes:
+      - ./config/gluetun:/gluetun
+    ports:
+      # nzbget runs inside this containers network namespace, so expose its port here:
+      - "6789:6789"
+    restart: always
+
+  nzbget:
+    image: lscr.io/linuxserver/nzbget:latest
+    container_name: nzbget
+    # Route all nzbget traffic through the Gluetun VPN container:
+    network_mode: "service:gluetun"
+    depends_on:
+      - gluetun
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Los_Angeles
+    volumes:
+      - ./config/nzbget:/config
+      - media:/data
+    restart: always
+
+  sonarr:
+    image: lscr.io/linuxserver/sonarr:latest
+    container_name: sonarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Los_Angeles
+    volumes:
+      - ./config/sonarr:/config
+      - media:/data
+    ports:
+      - "8989:8989"
+    restart: always
+
+  radarr:
+    image: lscr.io/linuxserver/radarr:latest
+    container_name: radarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Los_Angeles
+    volumes:
+      - ./config/radarr:/config
+      - media:/data
+    ports:
+      - "7878:7878"
+    restart: always
+
+  overseerr:
+    image: lscr.io/linuxserver/overseerr:latest
+    container_name: overseerr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Los_Angeles
+    volumes:
+      - ./config/overseerr:/config
+    ports:
+      - "5055:5055"
+    restart: always
+
+volumes:
+  media:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      # Enter the path to your storage folder here:
+      # Try to make sure that this has a lot of space : D 
+      device: /path/to/your/media
